@@ -41,7 +41,7 @@ const Person = model(
         enum: ["U", "F", "M"],
         default: "U",
       },
-      country: {
+      county: {
         type: String,
         default: null,
       },
@@ -76,6 +76,19 @@ const Person = model(
       occupation: {
         type: String,
         default: null,
+      },
+
+      allergies: {
+        type: [String],
+        default: [],
+      },
+      chronics: {
+        type: [String],
+        default: [],
+      },
+      disabilities: {
+        type: [String],
+        default: [],
       },
     },
     { timestamps: true }
