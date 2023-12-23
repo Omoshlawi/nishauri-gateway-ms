@@ -9,6 +9,7 @@ import bcrypt from "bcrypt";
 import { isEmpty } from "lodash";
 import { Types } from "mongoose";
 import moment from "moment/moment";
+import ChangePasswordSchema from "../../presentation/ChangepasswordSchema";
 
 const checkPassword = async (user: any, password: string) => {
   const valid = await bcrypt.compare(password, user.password);
@@ -90,6 +91,7 @@ const verifyUserAccount = async (
   userId: string | Types.ObjectId,
   { mode, otp }: z.infer<typeof AccountVerificationSchema>
 ) => {
+  // TODO Can use mode against the extra field to make sure its same with what user has provided
   const verification = await AccountVerification.findOne({
     user: userId,
     verified: false,
@@ -125,9 +127,28 @@ const getOrCreateAccountVerification = async (
   return verification;
 };
 
+const changeUserPassword = async (
+  userId: string | Types.ObjectId,
+  {
+    confirmNewPassword,
+    currentPassword,
+    newPassword,
+  }: z.infer<typeof ChangePasswordSchema>
+) => {
+  const user = await User.findById(userId);
+  if (!(await checkPassword(user, currentPassword)))
+    throw {
+      errors: { currentPassword: { _errors: ["Invalid password"] } },
+      status: 400,
+    };
+  user!.password = await hashPassword(newPassword);
+  await user!.save();
+};
+
 export default {
   registerUser,
   loginUser,
   verifyUserAccount,
   getOrCreateAccountVerification,
+  changeUserPassword,
 };

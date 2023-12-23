@@ -1,15 +1,13 @@
 import { NextFunction, Request, Response } from "express";
 import LoginSchema from "../../presentation/LoginSchema";
-import bcrypt from "bcrypt";
 import { AccountVerificationSchema, RegisterSchema } from "../../presentation";
-import { omit, template } from "lodash";
-import { Person, User } from "../../data/models";
-import { formartError } from "../../../../utils";
+
 import { authRepository, userRepository } from "../../data/respositories";
 import { APIException } from "../../../../shared/exceprions";
 import { UserRequest } from "../../../../shared/types";
 import config from "config";
-import { generateOTP, parseMessage, sendSms } from "../../../../utils/helpers";
+import { parseMessage, sendSms } from "../../../../utils/helpers";
+import ChangePasswordSchema from "../../presentation/ChangepasswordSchema";
 export const register = async (
   req: Request,
   res: Response,
@@ -111,6 +109,33 @@ export const requestVerificationCode = async (
     return res.json({
       detail: `OTP sent to ${mode} ${person?.email} ${person?.phoneNumber} successfully`,
     });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const changePassword = async (
+  req: UserRequest,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const validation = await ChangePasswordSchema.safeParseAsync(req.body);
+    if (!validation.success)
+      throw new APIException(400, validation.error.format());
+    await authRepository.changeUserPassword(req.user.id, validation.data);
+    return res.json({ detail: "Password changed successfully!" });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const resetPassword = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
   } catch (error) {
     next(error);
   }
