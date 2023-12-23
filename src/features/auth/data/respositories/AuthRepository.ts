@@ -18,7 +18,6 @@ const hashPassword = async (password: string) => {
 const loginUser = async ({
   password,
   username,
-  confirmPassword,
 }: z.infer<typeof LoginSchema>) => {
   /**
    * get persons with email or phone number equals provided username

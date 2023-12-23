@@ -1,6 +1,10 @@
 import { Router } from "express";
 import { login, register, profileView, refreshToken } from "./domain";
-import { authenticate, refreshToken as refresh } from "../../middlewares";
+import {
+  authenticate,
+  refreshToken as refresh,
+  requireAccountSetupComplete,
+} from "../../middlewares";
 
 const router = Router();
 

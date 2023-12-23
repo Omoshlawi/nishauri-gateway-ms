@@ -38,6 +38,14 @@ const User = model(
         type: Boolean,
         default: true,
       },
+      accountVerified: {
+        type: Boolean,
+        default: false,
+      },
+      profileUpdated: {
+        type: Boolean,
+        default: false,
+      },
     },
     {
       timestamps: true,
