@@ -47,7 +47,7 @@ const User = model(
             { _id: this._id },
             config.get("jwt") as string,
             {
-              expiresIn: "30s",
+              expiresIn: "2h",
             }
           );
           const refreshToken = jwt.sign(
