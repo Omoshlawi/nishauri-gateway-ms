@@ -6,6 +6,8 @@ import mongoose from "mongoose";
 import morgan from "morgan";
 import cors from "cors";
 import { MEDIA_ROOT } from "./utils";
+import { default as authRoutes } from "./features/auth/route";
+import { handleErrors } from "./middlewares";
 
 const app = express();
 
@@ -30,9 +32,13 @@ app.use(express.json());
 app.use(express.static(MEDIA_ROOT));
 
 // routes
+app.use("/auth", authRoutes);
 app.get("/", (req, res) => {
   res.send({ data: "Hello, world!" });
 });
+
+// error handler
+app.use(handleErrors);
 
 const port = config.get("port");
 app.listen(port, () => {

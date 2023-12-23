@@ -1,9 +1,15 @@
-import { Schema, model } from "mongoose";
+import { Schema, Types, model } from "mongoose";
 
 const Person = model(
   "Person",
   new Schema(
     {
+      user: {
+        type: Types.ObjectId,
+        ref: "User",
+        required: true,
+        unique: true,
+      },
       image: {
         type: String,
         default: null, // You can set a default value if needed

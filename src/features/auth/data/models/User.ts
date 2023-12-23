@@ -1,6 +1,6 @@
 import config from "config";
 import { Schema, model } from "mongoose";
-import jwt from "jsonwebtoken"
+import jwt from "jsonwebtoken";
 
 const User = model(
   "User",
@@ -44,6 +44,15 @@ const User = model(
       methods: {
         generateAuthToken() {
           return jwt.sign({ _id: this._id }, config.get("jwt"));
+        },
+      },
+      // overide toJSON that ommits password and __v fields
+      // overide toJSON that ommits password and __v fields
+      toJSON: {
+        transform: function (doc, ret) {
+          // delete the password and __v fields from the returned object
+          delete ret.password;
+          delete ret.__v;
         },
       },
     }
