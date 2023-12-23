@@ -20,9 +20,9 @@ export function handleErrors(
     });
   }
   // For other types of errors, return a generic error response
-  console.log("[*]Error handler middleware: ", error);
+  console.log("[*]Error handler middleware: ", error.message);
 
-  res.status(500).json({ error: "Internal Server Error" });
+  res.status(500).json({ detail: "Internal Server Error" });
 }
 
 export default handleErrors;

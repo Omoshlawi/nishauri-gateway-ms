@@ -43,7 +43,21 @@ const User = model(
       timestamps: true,
       methods: {
         generateAuthToken() {
-          return jwt.sign({ _id: this._id }, config.get("jwt"));
+          const accessToken = jwt.sign(
+            { _id: this._id },
+            config.get("jwt") as string,
+            {
+              expiresIn: "30s",
+            }
+          );
+          const refreshToken = jwt.sign(
+            { _id: this._id },
+            config.get("jwt") as string,
+            {
+              expiresIn: "1d",
+            }
+          );
+          return { accessToken, refreshToken };
         },
       },
       // overide toJSON that ommits password and __v fields

@@ -9,7 +9,7 @@ const authenticate = async (
   res: Response,
   next: NextFunction
 ) => {
-  const token = req.header("x-auth-token");
+  const token = req.header("x-access-token");
   if (!token)
     return res.status(401).json({ detail: "Access Denied.No token Provided" });
   try {
