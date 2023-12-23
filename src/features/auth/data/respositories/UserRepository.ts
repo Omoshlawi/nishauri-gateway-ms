@@ -1,6 +1,5 @@
 import { Types } from "mongoose";
 import { Person, User } from "../models";
-import { Type } from "typescript";
 import { z } from "zod";
 import { UserSchema } from "../../presentation";
 import { isEmpty } from "lodash";
@@ -46,6 +45,7 @@ const updateUserProfile = async (
    * checks if no person has phone number
    * update user
    * update person
+   * Update user profile updated flag to true
    */
   const errors: any = {};
   const _user = await User.findOne({ username });
@@ -62,7 +62,7 @@ const updateUserProfile = async (
 
   const user = await User.findByIdAndUpdate(
     userId,
-    { username },
+    { username, profileUpdated: true },
     { new: true }
   );
   const person = await Person.findOneAndUpdate(
@@ -72,7 +72,12 @@ const updateUserProfile = async (
   return await getUserProfileById(userId);
 };
 
+const getPersonByUserId = async (userId: string | Types.ObjectId) => {
+  return await Person.findOne({ user: userId });
+};
+
 export default {
   getUserProfileById,
   updateUserProfile,
+  getPersonByUserId,
 };

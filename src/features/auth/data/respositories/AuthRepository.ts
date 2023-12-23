@@ -1,8 +1,14 @@
 import { z } from "zod";
-import { LoginSchema, RegisterSchema } from "../../presentation";
-import { Person, User } from "../models";
+import {
+  AccountVerificationSchema,
+  LoginSchema,
+  RegisterSchema,
+} from "../../presentation";
+import { AccountVerification, Person, User } from "../models";
 import bcrypt from "bcrypt";
 import { isEmpty } from "lodash";
+import { Types } from "mongoose";
+import moment from "moment/moment";
 
 const checkPassword = async (user: any, password: string) => {
   const valid = await bcrypt.compare(password, user.password);
@@ -80,7 +86,48 @@ const registerUser = async ({
   return user;
 };
 
+const verifyUserAccount = async (
+  userId: string | Types.ObjectId,
+  { mode, otp }: z.infer<typeof AccountVerificationSchema>
+) => {
+  const verification = await AccountVerification.findOne({
+    user: userId,
+    verified: false,
+    expiry: {
+      $gte: moment(),
+    },
+    otp: otp,
+  });
+  if (!verification)
+    throw {
+      errors: { otp: { _errors: ["Invalid or Expired code!"] } },
+      status: 400,
+    };
+  const user = await User.findByIdAndUpdate(
+    userId,
+    { accountVerified: true },
+    { new: true }
+  );
+  verification.verified = true;
+  await verification.save();
+
+  return user;
+};
+
+const getOrCreateAccountVerification = async (
+  userId: string | Types.ObjectId,
+  mode: "sms" | "watsapp" | "email"
+) => {
+  const verification = await AccountVerification.getOrCreate({
+    user: userId,
+    extra: mode,
+  });
+  return verification;
+};
+
 export default {
   registerUser,
   loginUser,
+  verifyUserAccount,
+  getOrCreateAccountVerification,
 };
