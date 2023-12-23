@@ -1,4 +1,3 @@
-// src/index.ts
 import "dotenv/config";
 import config from "config";
 import express from "express";
@@ -30,6 +29,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static(MEDIA_ROOT));
 
+// routes
 app.get("/", (req, res) => {
   res.send({ data: "Hello, world!" });
 });
