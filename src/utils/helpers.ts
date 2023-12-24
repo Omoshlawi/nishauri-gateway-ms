@@ -106,3 +106,14 @@ export const sendSms = async (message: string, phone: string) => {
     console.error("Error sending SMS:", error);
   }
 };
+
+
+export function isValidURL(url: string): boolean {
+  try {
+    // Attempt to create a URL object
+    new URL(url);
+    return true;
+  } catch (error) {
+    return false;
+  }
+}

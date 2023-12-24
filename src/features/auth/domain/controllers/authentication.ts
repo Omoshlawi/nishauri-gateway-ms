@@ -93,7 +93,7 @@ export const requestVerificationCode = async (
     const mode: "sms" | "watsapp" | "email" = modes.includes(
       req.query.mode as any
     )
-      ? (req.params.mode as any)
+      ? (req.query.mode as any)
       : "sms";
 
     const { otp: code } = await authRepository.getOrCreateAccountVerification(
