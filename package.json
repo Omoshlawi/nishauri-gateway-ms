@@ -11,6 +11,7 @@
   "author": "Laurent Ouma",
   "license": "ISC",
   "dependencies": {
+    "amqplib": "^0.10.3",
     "axios": "^1.6.2",
     "bcrypt": "^5.1.1",
     "config": "^3.3.9",
@@ -30,6 +31,7 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@types/amqplib": "^0.10.4",
     "@types/bcrypt": "^5.0.2",
     "@types/config": "^3.3.3",
     "@types/cors": "^2.8.17",

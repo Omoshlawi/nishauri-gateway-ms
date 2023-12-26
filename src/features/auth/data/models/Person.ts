@@ -77,7 +77,6 @@ const Person = model(
         type: String,
         default: null,
       },
-
       allergies: {
         type: [String],
         default: [],
