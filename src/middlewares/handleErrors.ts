@@ -9,7 +9,9 @@ export function handleErrors(
   next: NextFunction
 ) {
   if (error.status) {
-    return res.status(error.status).json(error.errors);
+    return res
+      .status(error.status)
+      .json(error.status === 400 ? { errors: error.errors } : error.errors);
   }
   // For other types of errors, return a generic error response
   console.log("[*]Error handler middleware: ", error.message);

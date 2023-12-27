@@ -51,8 +51,10 @@ export const verifyAccount = async (
   next: NextFunction
 ) => {
   try {
-    await authRepository.verifyUserAccount(req.user._id, req.body);
-
+    await authRepository.verifyUserAccount(
+      req.header("x-access-token") as string,
+      req.body
+    );
     return res.json({ detail: "Verification successfull" });
   } catch (error) {
     next(error);
@@ -65,6 +67,11 @@ export const requestVerificationCode = async (
   next: NextFunction
 ) => {
   try {
+    const response = await authRepository.getOrCreateAccountVerification(
+      req.header("x-access-token") as string,
+      req.query.mode
+    );
+    return res.json(response);
   } catch (error) {
     next(error);
   }
