@@ -24,17 +24,17 @@ export const NISHAURI_PATIENT_QUEUE: string = config.get(
   "message_broker.exchanges.nishauri.queues.patient.name"
 );
 
-const createChannel = async () => {
+const createChannel = async (exchangeType: string = "direct") => {
   try {
     const connection = await amqp.connect(MESSAGE_BROKER_URL);
     const channel = await connection.createChannel();
-    await channel.assertExchange(NISHAURI_EXCHANGE_NAME, "direct");
+    await channel.assertExchange(NISHAURI_EXCHANGE_NAME, exchangeType);
     return channel;
   } catch (error) {
+    console.error("Error creating channel:", error);
     throw error;
   }
 };
-
 const publishMessage = async (
   channel: Channel,
   bindingKey: string,
@@ -43,28 +43,35 @@ const publishMessage = async (
   try {
     channel.publish(
       NISHAURI_EXCHANGE_NAME,
-      bindingKey, //routes message to sepecific queue
-      Buffer.from(JSON.stringify(message))
+      bindingKey,
+      Buffer.from(JSON.stringify(message), "utf-8")
     );
   } catch (error) {
+    console.error("Error publishing message:", error);
     throw error;
   }
 };
 
-const subscribeMessage = async (channel: Channel, bindingKey: string) => {
+const subscribeMessage = async (
+  channel: Channel,
+  bindingKey: string,
+  queueName: string
+) => {
   try {
-    const queue = await channel.assertQueue(NISHAURI_PATIENT_QUEUE);
+    const queue = await channel.assertQueue(queueName);
     channel.bindQueue(queue.queue, NISHAURI_EXCHANGE_NAME, bindingKey);
+
     channel.consume(queue.queue, (data) => {
-      console.log("Received data");
-      data?.content.toString();
-      channel.ack(data as Message);
+      if (data) {
+        console.log("Received data:", data.content.toString());
+        channel.ack(data as Message);
+      }
     });
   } catch (error) {
+    console.error("Error subscribing to message:", error);
     throw error;
   }
 };
-
 export default {
   createChannel,
   publishMessage,
