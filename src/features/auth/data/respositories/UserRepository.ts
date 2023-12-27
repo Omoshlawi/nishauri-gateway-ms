@@ -1,12 +1,14 @@
+import ServiceClient from "../../../../shared/ServiceClient";
 
-const getUserProfileById = async (id: string ) => {
-  
+const getUserProfileByToken = async (token: string) => {
+  return await ServiceClient.callService("nishauri-users-ms", {
+    url: "auth/profile",
+    method: "GET",
+    headers: { "x-access-token": token },
+  });
 };
 
-const updateUserProfile = async (
-  userId: string,
-  data: any
-) => {
+const updateUserProfile = async (userId: string, data: any) => {
   const {
     // allergies,
     // chronics,
@@ -25,24 +27,15 @@ const updateUserProfile = async (
    * update person
    * Update user profile updated flag to true
    */
-
 };
 
-const getPersonByUserId = async (userId: string) => {
-};
+const getPersonByUserId = async (userId: string) => {};
 
-const changeUserPassword = async (
-  token: string,
-  data:any
-) => {
-  
-};
-
+const changeUserPassword = async (token: string, data: any) => {};
 
 export default {
-  getUserProfileById,
+  getUserProfileByToken,
   updateUserProfile,
   getPersonByUserId,
   changeUserPassword,
-
 };

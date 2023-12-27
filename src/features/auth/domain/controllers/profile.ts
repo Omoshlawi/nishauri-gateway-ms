@@ -12,7 +12,7 @@ export const profileView = async (
   next: NextFunction
 ) => {
   try {
-    const user = await userRepository.getUserProfileById(req.user._id);
+    const user = req.user;
     return res.json(user);
   } catch (error) {
     next(error);
