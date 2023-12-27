@@ -19,7 +19,7 @@ const authenticate = async (
     if (userId != user._id)
       return res.status(401).json({ detail: "Unauthorized - Invalid token" });
     req.user = user;
-    next();
+    return next();
   } catch (err: any) {
     console.error(`[x]Error aithenticating user: `, err);
     if (err.status && err.status !== 401) {

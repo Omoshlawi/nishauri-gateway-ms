@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { authRepository, userRepository } from "../../data/respositories";
 import { APIException } from "../../../../shared/exceprions";
 import { UserRequest } from "../../../../shared/types";
+import AuthRepository from "../../data/respositories/AuthRepository";
 export const register = async (
   req: Request,
   res: Response,
@@ -35,11 +36,10 @@ export const refreshToken = async (
   next: NextFunction
 ) => {
   try {
-    const { accessToken, refreshToken } = req.user.generateAuthToken();
-    return res
-      .header("x-refresh-token", refreshToken)
-      .header("x-access-token", accessToken)
-      .json({ user: req.user, token: req.user.generateAuthToken() });
+    const user = await AuthRepository.refreshToken(
+      req.header("x-refresh-token") as string
+    );
+    return res.json(user)
   } catch (err) {
     next(err);
   }

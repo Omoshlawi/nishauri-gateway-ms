@@ -69,10 +69,18 @@ const getOrCreateAccountVerification = async (token: string, mode: any) => {
   return verification;
 };
 
+const refreshToken = async (token: string) => {
+  return await ServiceClient.callService("nishauri-users-ms", {
+    url: "auth/refresh-token",
+    method: "GET",
+    headers: { "x-refresh-token": token },
+  });
+};
 
 export default {
   registerUser,
   loginUser,
   verifyUserAccount,
   getOrCreateAccountVerification,
+  refreshToken,
 };
