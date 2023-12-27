@@ -14,7 +14,7 @@ const loginUser = async (data: any) => {
    * get persons with email or phone number equals provided username
    * Gets user with username or id in user ids
    * Check all user against provided password
-   * return fist user whos creds matched
+   * @return {}user whos creds matched
    * else return undefined
    */
   const loginResponse = await ServiceClient.callService("nishauri-users-ms", {

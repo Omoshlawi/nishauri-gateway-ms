@@ -9,10 +9,8 @@ export const register = async (
 ) => {
   // let user = User.findOne({email})
   try {
-    return res
-      .header("x-refresh-token", "refreshToken")
-      .header("x-access-token", "accessToken")
-      .json({ success: true });
+    const user = await authRepository.registerUser(req.body);
+    return res.json(user);
   } catch (error: any) {
     next(error);
   }
@@ -25,7 +23,7 @@ export const login = async (
   // let user = User.findOne({email})
   try {
     const user = await authRepository.loginUser(req.body);
-    return res.json({ user });
+    return res.json(user);
   } catch (error: any) {
     next(error);
   }
