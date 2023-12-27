@@ -1,11 +1,6 @@
-import { NextFunction, Response } from "express";
+import { NextFunction, Response, response } from "express";
 import { UserRequest } from "../../../../shared/types";
-import { userRepository } from "../../data/respositories";
-import { UserSchema } from "../../presentation";
-import { APIException } from "../../../../shared/exceprions";
-import { PROFILE_URL } from "../../../../utils";
-import { getUpdateFileAsync } from "../../../../utils/helpers";
-
+import UserRepository from "../../data/respositories/UserRepository";
 export const profileView = async (
   req: UserRequest,
   res: Response,
@@ -24,18 +19,31 @@ export const profileUpdate = async (
   next: NextFunction
 ) => {
   try {
-    const validation = await UserSchema.safeParseAsync({
-      ...req.body,
-      image: await getUpdateFileAsync(req, PROFILE_URL, req.user.image),
+    const formData = new FormData();
+    let image = req.file;
+    Object.entries(req.body).forEach(([key, value]) => {
+      if (value !== null && value !== undefined) {
+        if (value instanceof Array) {
+          value.forEach((val, index) =>
+            formData.append(`${key}[${index}]`, val)
+          );
+        } else formData.append(key, value as string);
+      }
     });
-    if (!validation.success)
-      throw new APIException(400, validation.error.format());
-    const user = await userRepository.updateUserProfile(
-      req.user._id,
-      validation.data
+    if (image) {
+      const uint8Array = Uint8Array.from(image.buffer);
+      const blob = new Blob([uint8Array], { type: image.mimetype });
+      const file = new File([blob], image.originalname, { type: blob.type });
+      formData.append("image", file, image.originalname);
+    }
+    const user = await UserRepository.updateUserProfile(
+      req.header("x-access-token") as string,
+      formData
     );
     return res.json(user);
   } catch (error) {
     next(error);
   }
 };
+
+// const

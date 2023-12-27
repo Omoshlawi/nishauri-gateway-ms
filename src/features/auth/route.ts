@@ -11,7 +11,7 @@ import {
 } from "./domain";
 import {
   authenticate,
-  fileUploader,
+  uploader,
   requireAccountVerified,
 } from "../../middlewares";
 import { PROFILE_URL } from "../../utils";
@@ -26,7 +26,7 @@ router.post(
   [
     authenticate as any,
     requireAccountVerified,
-    fileUploader({ dest: PROFILE_URL }).single("image"),
+    uploader.memoryFile().single("image"),
   ],
   profileUpdate as any
 );

@@ -8,17 +8,7 @@ const getUserProfileByToken = async (token: string) => {
   });
 };
 
-const updateUserProfile = async (userId: string, data: any) => {
-  const {
-    // allergies,
-    // chronics,
-    // disabilities,
-    email,
-    phoneNumber,
-    username,
-    ...others
-  } = data;
-
+const updateUserProfile = async (token: string, formData: FormData) => {
   /**
    * Check if no user has the username,
    * checks if no person has email r
@@ -27,6 +17,12 @@ const updateUserProfile = async (userId: string, data: any) => {
    * update person
    * Update user profile updated flag to true
    */
+  return await ServiceClient.callService("nishauri-users-ms", {
+    url: "auth/profile",
+    method: "POST",
+    headers: { "x-access-token": token },
+    data: formData,
+  });
 };
 
 const getPersonByUserId = async (userId: string) => {};
