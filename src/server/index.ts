@@ -6,7 +6,6 @@ import { MEDIA_ROOT, configuration } from "../utils";
 import { default as authRoutes } from "../features/auth/route";
 import proxy from "express-http-proxy";
 import { handleErrors } from "../middlewares";
-import { Channel } from "amqplib";
 
 export const dbConnection = async () => {
   try {
@@ -22,7 +21,6 @@ export const dbConnection = async () => {
 
 export const configureExpressApp = async (
   app: Application,
-  channel: Channel
 ) => {
   // --------------------middlewares---------------------------
 

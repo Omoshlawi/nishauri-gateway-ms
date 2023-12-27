@@ -2,7 +2,6 @@ import "dotenv/config";
 import express from "express";
 import { createServer } from "http";
 import { configureExpressApp, dbConnection } from "./server";
-import { messageBroker } from "./amqp";
 import { configuration } from "./utils";
 
 const startServer = async () => {
@@ -12,9 +11,8 @@ const startServer = async () => {
   await dbConnection();
   //-------------- end database connecivity      ---------------------
   // -----------------Message broker--------------------------
-  const channel = await messageBroker.createChannel();
   // -----------------End Message broker---------------------
-  await configureExpressApp(app, channel);
+  await configureExpressApp(app);
   const port = configuration.port ?? 0;
   httpServer.listen(port, () => {
     const address = httpServer.address();
