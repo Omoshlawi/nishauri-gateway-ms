@@ -36,6 +36,10 @@
                 }
             }
         }
+    },
+    "registry": {
+        "url":"http://localhost:9000",
+        "version": "*"
     }
 
 

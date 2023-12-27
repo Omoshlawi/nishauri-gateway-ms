@@ -29,7 +29,7 @@ export const configureExpressApp = async (
   if (app.get("env") === "development") {
     app.use(morgan("tiny"));
     console.info(
-      `[+]Morgan logger Enabled for ${configuration.name}:${configuration.version}`
+      `[+]${configuration.name}:${configuration.version} enable morgan`
     );
   }
   app.use(cors());

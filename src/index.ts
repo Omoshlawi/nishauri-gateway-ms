@@ -1,5 +1,4 @@
 import "dotenv/config";
-import config from "config";
 import express from "express";
 import { createServer } from "http";
 import { configureExpressApp, dbConnection } from "./server";
@@ -18,10 +17,11 @@ const startServer = async () => {
   await configureExpressApp(app, channel);
   const port = configuration.port ?? 0;
   httpServer.listen(port, () => {
+    const address = httpServer.address();
+    const bind =
+      typeof address === "string" ? `pipe ${address}` : `port ${address?.port}`;
     console.info(
-      `[+]${configuration.name}:${configuration.version} listening on port ${
-        (httpServer.address() as any).port
-      }...`
+      `[+]${configuration.name}:${configuration.version} listening on ${bind}`
     );
   });
 };
