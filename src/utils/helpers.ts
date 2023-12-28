@@ -4,6 +4,7 @@ import fs from "fs";
 import moment from "moment/moment";
 import config from "config";
 import axios from "axios";
+import { mapValues, pick } from "lodash";
 
 export const formartError = (errors: any) => {
   return {
@@ -107,7 +108,6 @@ export const sendSms = async (message: string, phone: string) => {
   }
 };
 
-
 export function isValidURL(url: string): boolean {
   try {
     // Attempt to create a URL object
@@ -116,4 +116,14 @@ export function isValidURL(url: string): boolean {
   } catch (error) {
     return false;
   }
+}
+
+export function objectTransfomer(
+  obj: { [key: string]: any },
+  fields: string[],
+  func: (value: any) => any
+): { [key: string]: any } {
+  const pickedFields = pick(obj, fields);
+  const updatedFields = mapValues(pickedFields, func);
+  return { ...obj, ...updatedFields };
 }

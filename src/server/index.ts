@@ -19,9 +19,7 @@ export const dbConnection = async () => {
   }
 };
 
-export const configureExpressApp = async (
-  app: Application,
-) => {
+export const configureExpressApp = async (app: Application) => {
   // --------------------middlewares---------------------------
 
   if (app.get("env") === "development") {
@@ -37,7 +35,6 @@ export const configureExpressApp = async (
 
   //------------------- routes --------------------------------
   app.use("/auth", authRoutes);
-  app.use("/patients", proxy("http://localhost:5001"));
   app.get("/", (req, res) => {
     res.send({ data: "Hello, world!" });
   });

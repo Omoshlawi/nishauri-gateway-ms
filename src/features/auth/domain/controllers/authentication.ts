@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { authRepository, userRepository } from "../../data/respositories";
-import { APIException } from "../../../../shared/exceprions";
+import { authRepository } from "../../data/respositories";
 import { UserRequest } from "../../../../shared/types";
 import AuthRepository from "../../data/respositories/AuthRepository";
 export const register = async (
@@ -11,7 +10,10 @@ export const register = async (
   // let user = User.findOne({email})
   try {
     const user = await authRepository.registerUser(req.body);
-    return res.json(user);
+    return res
+      .header("x-refresh-token", user.token.refreshToken)
+      .header("x-access-token", user.token.accessToken)
+      .json(user);
   } catch (error: any) {
     next(error);
   }
@@ -24,7 +26,10 @@ export const login = async (
   // let user = User.findOne({email})
   try {
     const user = await authRepository.loginUser(req.body);
-    return res.json(user);
+    return res
+      .header("x-refresh-token", user.token.refreshToken)
+      .header("x-access-token", user.token.accessToken)
+      .json(user);
   } catch (error: any) {
     next(error);
   }
@@ -39,7 +44,10 @@ export const refreshToken = async (
     const user = await AuthRepository.refreshToken(
       req.header("x-refresh-token") as string
     );
-    return res.json(user)
+    return res
+      .header("x-refresh-token", user.token.refreshToken)
+      .header("x-access-token", user.token.accessToken)
+      .json(user);
   } catch (err) {
     next(err);
   }
