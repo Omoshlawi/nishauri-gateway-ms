@@ -20,6 +20,7 @@ export const profileUpdate = async (
 ) => {
   try {
     const formData = new FormData();
+
     let image = req.file;
     Object.entries(req.body).forEach(([key, value]) => {
       if (value !== null && value !== undefined) {
