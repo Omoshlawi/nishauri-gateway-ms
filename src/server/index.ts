@@ -6,7 +6,8 @@ import { MEDIA_ROOT, configuration } from "../utils";
 import { default as authRoutes } from "../features/auth/route";
 import proxy from "express-http-proxy";
 import { handleErrors } from "../middlewares";
-import filesRoute from "../features/files/route";
+import filesRoute from "../features/files/routes";
+import { default as facilityRoutes } from "../features/facilities/routes";
 
 export const dbConnection = async () => {
   try {
@@ -37,6 +38,7 @@ export const configureExpressApp = async (app: Application) => {
   //------------------- routes --------------------------------
   app.use("/auth", authRoutes);
   app.use("/files", filesRoute);
+  app.use("/facilities", facilityRoutes);
   app.get("/", (req, res) => {
     res.send({ data: "Hello, world!" });
   });

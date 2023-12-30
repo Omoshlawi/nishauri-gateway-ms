@@ -15,4 +15,8 @@ export const configuration = {
     version: config.get("registry.version") as string,
   },
 };
-export { objectTransfomer } from "./helpers";
+export {
+  objectTransfomer,
+  expressMulterFileToFile,
+  objectToFormData,
+} from "./helpers";

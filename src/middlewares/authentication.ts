@@ -21,6 +21,7 @@ const authenticate = async (
     req.user = user;
     return next();
   } catch (err: any) {
+    // TokenExpiredError
     console.error(`[x]Error aithenticating user: `, err);
     if (err.status && err.status !== 401) {
       return res.status(err.status).json(err.errors);
