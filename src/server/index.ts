@@ -8,6 +8,7 @@ import proxy from "express-http-proxy";
 import { handleErrors } from "../middlewares";
 import filesRoute from "../features/files/routes";
 import { default as facilityRoutes } from "../features/facilities/routes";
+import { default as patientsRouter } from "../features/patients/routes";
 
 export const dbConnection = async () => {
   try {
@@ -39,6 +40,7 @@ export const configureExpressApp = async (app: Application) => {
   app.use("/auth", authRoutes);
   app.use("/files", filesRoute);
   app.use("/facilities", facilityRoutes);
+  app.use("/patients", patientsRouter);
   app.get("/", (req, res) => {
     res.send({ data: "Hello, world!" });
   });
