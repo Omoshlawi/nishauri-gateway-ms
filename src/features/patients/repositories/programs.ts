@@ -23,7 +23,7 @@ const updateProgram = async (programId: string, data: any, token: string) => {
   });
 };
 
-const deleteProgram = async (programId: string, data: any, token: string) => {
+const deleteProgram = async (programId: string, token: string) => {
   return await ServiceClient.callService("nishauri-patients-ms", {
     method: "DELETE",
     url: `programs/${programId}`,
