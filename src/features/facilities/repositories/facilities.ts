@@ -1,10 +1,11 @@
 import { Request } from "express";
 import ServiceClient from "../../../shared/ServiceClient";
 
-const getFacilities = async () => {
+const getFacilities = async (params?: { [key: string]: any }) => {
   return await ServiceClient.callService("nishauri-facilities-registry-ms", {
     url: "facilities",
     method: "GET",
+    params,
   });
 };
 

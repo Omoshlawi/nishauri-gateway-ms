@@ -4,3 +4,8 @@ export {
   getPrograms,
   updatePrograms,
 } from "./programs";
+export {
+  getRegisteredPrograms,
+  register,
+  verifyProgramRegistration,
+} from "./patientPrograms";

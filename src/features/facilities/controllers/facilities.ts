@@ -8,7 +8,7 @@ export const getFacilities = async (
   next: NextFunction
 ) => {
   try {
-    const facilities = await facilitiesRepository.getFacilities();
+    const facilities = await facilitiesRepository.getFacilities(req.query);
     return res.json(facilities);
   } catch (error) {
     next(error);
@@ -29,8 +29,6 @@ export const createFacility = async (
     };
 
     const formData = objectToFormData(body);
-    console.log(formData);
-
     return res.json(
       await facilitiesRepository.registerFacility(
         formData,
