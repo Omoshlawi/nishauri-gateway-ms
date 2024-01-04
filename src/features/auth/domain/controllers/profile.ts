@@ -1,4 +1,4 @@
-import { NextFunction, Response, response } from "express";
+import { NextFunction, Request, Response, response } from "express";
 import { UserRequest } from "../../../../shared/types";
 import UserRepository from "../../data/respositories/UserRepository";
 export const profileView = async (
@@ -40,6 +40,22 @@ export const profileUpdate = async (
     const user = await UserRepository.updateUserProfile(
       req.header("x-access-token") as string,
       formData
+    );
+    return res.json(user);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const userProfile = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const user = await UserRepository.getProfileByUserId(
+      req.params.id,
+      req.header("x-access-token") as string
     );
     return res.json(user);
   } catch (error) {

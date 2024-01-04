@@ -25,13 +25,19 @@ const updateUserProfile = async (token: string, formData: FormData) => {
   });
 };
 
-const getPersonByUserId = async (userId: string) => {};
+const getProfileByUserId = async (userId: string, token: string) => {
+  return await ServiceClient.callService("nishauri-users-ms", {
+    url: `auth/user/${userId}`,
+    method: "GET",
+    headers: { "x-access-token": token },
+  });
+};
 
 const changeUserPassword = async (token: string, data: any) => {};
 
 export default {
   getUserProfileByToken,
   updateUserProfile,
-  getPersonByUserId,
+  getProfileByUserId,
   changeUserPassword,
 };
