@@ -8,4 +8,5 @@ export {
   getRegisteredPrograms,
   register,
   verifyProgramRegistration,
+  requestVerification,
 } from "./patientPrograms";

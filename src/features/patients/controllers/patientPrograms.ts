@@ -12,7 +12,23 @@ export const register = async (
   try {
     const response = await patientProgramRepository.registerForProgram(
       (req as UserRequest).user._id,
-      req.body
+      req.body,
+      req.header("x-access-token") as string
+    );
+    return res.json(response);
+  } catch (error) {
+    next(error);
+  }
+};
+export const requestVerification = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const response = await patientProgramRepository.requestVerification(
+      (req as UserRequest).user._id,
+      req.header("x-access-token") as string
     );
     return res.json(response);
   } catch (error) {
@@ -40,6 +56,12 @@ export const verifyProgramRegistration = async (
   next: NextFunction
 ) => {
   try {
+    const response = await patientProgramRepository.verifyProgramRegistration(
+      (req as UserRequest).user._id,
+      req.body,
+      req.header("x-access-token") as string
+    );
+    return res.json(response);
   } catch (error) {
     next(error);
   }

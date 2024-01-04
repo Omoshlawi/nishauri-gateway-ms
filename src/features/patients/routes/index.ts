@@ -6,13 +6,25 @@ import {
   getRegisteredPrograms,
   register,
   updatePrograms,
+  verifyProgramRegistration,
+  requestVerification,
 } from "../controllers";
 import { authenticate } from "../../../middlewares";
 
 const router = Router();
 
 router.get("/programs/patient-programs/:id", getRegisteredPrograms);
-router.post("/programs/register-patient", authenticate as any, register);
+router.post("/programs/register", authenticate as any, register);
+router.get(
+  "/programs/verify",
+  authenticate as any,
+  requestVerification
+);
+router.post(
+  "/programs/verify",
+  authenticate as any,
+  verifyProgramRegistration
+);
 
 router.get("/programs", getPrograms);
 router.post("/programs", addPrograms);
