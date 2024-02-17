@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { APIException } from "../shared/exceprions";
-import { entries } from "lodash";
+import logger from "../shared/logger";
 
 export function handleErrors(
   error: any,
@@ -14,7 +13,7 @@ export function handleErrors(
       .json(error.status === 400 ? { errors: error.errors } : error.errors);
   }
   // For other types of errors, return a generic error response
-  console.log("[*]Error handler middleware: ", error.message);
+  logger.error("Error handler middleware: " + error.message);
 
   return res.status(500).json({ detail: "Internal Server Error" });
 }

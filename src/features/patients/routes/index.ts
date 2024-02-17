@@ -13,18 +13,14 @@ import { authenticate } from "../../../middlewares";
 
 const router = Router();
 
-router.get("/programs/patient-programs/:id", getRegisteredPrograms);
-router.post("/programs/register", authenticate as any, register);
 router.get(
-  "/programs/verify",
+  "/programs/patient-programs/",
   authenticate as any,
-  requestVerification
+  getRegisteredPrograms
 );
-router.post(
-  "/programs/verify",
-  authenticate as any,
-  verifyProgramRegistration
-);
+router.post("/programs/register", authenticate as any, register);
+router.get("/programs/verify", authenticate as any, requestVerification);
+router.post("/programs/verify", authenticate as any, verifyProgramRegistration);
 
 router.get("/programs", getPrograms);
 router.post("/programs", addPrograms);

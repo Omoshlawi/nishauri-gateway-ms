@@ -28,6 +28,7 @@ export const requestVerification = async (
   try {
     const response = await patientProgramRepository.requestVerification(
       (req as UserRequest).user._id,
+      req.query,
       req.header("x-access-token") as string
     );
     return res.json(response);
@@ -41,10 +42,10 @@ export const getRegisteredPrograms = async (
   next: NextFunction
 ) => {
   try {
-    if (!Types.ObjectId.isValid(req.params.id))
-      throw new APIException(404, { detail: "Invalid patient" });
     return res.json(
-      await patientProgramRepository.getPatientPrograms(req.params.id)
+      await patientProgramRepository.getPatientPrograms(
+        (req as UserRequest).user._id
+      )
     );
   } catch (error) {
     next(error);

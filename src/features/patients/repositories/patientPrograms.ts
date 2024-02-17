@@ -3,7 +3,7 @@ import ServiceClient from "../../../shared/ServiceClient";
 const getPatientPrograms = async (userId: any) => {
   return await ServiceClient.callService("nishauri-patients-ms", {
     method: "GET",
-    url: "programs",
+    url: `programs/patient-programs/${userId}`,
   });
 };
 
@@ -15,11 +15,12 @@ const registerForProgram = async (userId: string, data: any, token: string) => {
     headers: { "x-access-token": token },
   });
 };
-const requestVerification = async (userId: string, token: string) => {
+const requestVerification = async (userId: string,params:any, token: string) => {
   return await ServiceClient.callService("nishauri-patients-ms", {
     method: "GET",
     url: `programs/patient-programs/${userId}/verify`,
     headers: { "x-access-token": token },
+    params:params
   });
 };
 const verifyProgramRegistration = async (
