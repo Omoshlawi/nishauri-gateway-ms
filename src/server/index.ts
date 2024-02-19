@@ -10,6 +10,8 @@ import filesRoute from "../features/files/routes";
 import { default as facilityRoutes } from "../features/facilities/routes";
 import { default as patientsRouter } from "../features/patients/routes";
 import { default as hivRouter } from "../features/hiv/routes";
+import { default as mapsRouter } from "../features/maps/routes";
+
 
 export const dbConnection = async () => {
   try {
@@ -43,6 +45,8 @@ export const configureExpressApp = async (app: Application) => {
   app.use("/facilities", facilityRoutes);
   app.use("/patients", patientsRouter);
   app.use("/hiv-program", hivRouter);
+  app.use("/maps", mapsRouter);
+
   app.get("/", (req, res) => {
     res.send({ data: "Hello, world!" });
   });
