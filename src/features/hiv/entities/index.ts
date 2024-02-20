@@ -8,3 +8,11 @@ export interface Appointment extends Entity {
   dateAttended: string;
   nextAppointmentDate: string;
 }
+
+
+
+
+export interface TreatmentSupport extends Entity{
+  careReceiver:string
+  careGiver:string
+}
