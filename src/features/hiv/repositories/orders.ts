@@ -3,10 +3,12 @@ import { Repository } from "../../../shared/types";
 import { ARTDrugOrder } from "../entities";
 
 export class ARTDrugOrderRepository implements Repository<ARTDrugOrder> {
-  create(entity: ARTDrugOrder): Promise<ARTDrugOrder>;
-  create(entity: Record<string, any>): Promise<ARTDrugOrder>;
-  create(entity: unknown): Promise<ARTDrugOrder> {
-    throw new Error("Method not implemented.");
+  create(entity: any): Promise<ARTDrugOrder> {
+    return ServiceClient.callService("nishauri-hiv-service", {
+      url: `orders`,
+      method: "POST",
+      data: entity,
+    });
   }
   findOneById(id: string): Promise<ARTDrugOrder | undefined> {
     return ServiceClient.callService("nishauri-hiv-service", {
