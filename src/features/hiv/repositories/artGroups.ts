@@ -1,6 +1,6 @@
 import ServiceClient from "../../../shared/ServiceClient";
 import { Repository } from "../../../shared/types";
-import { ARTGroup } from "../entities";
+import { ARTGroup, ARTGroupUserEnrollment } from "../entities";
 
 export class ARTGrupRepository implements Repository<ARTGroup> {
   create(entity: ARTGroup, token?: string): Promise<ARTGroup> {
@@ -22,6 +22,14 @@ export class ARTGrupRepository implements Repository<ARTGroup> {
     return ServiceClient.callService("nishauri-hiv-service", {
       method: "GET",
       url: `art-community/groups`,
+      headers: { "x-access-token": token },
+    });
+  }
+
+  findUseGroupEnrollments(token?: string): Promise<ARTGroupUserEnrollment[]> {
+    return ServiceClient.callService("nishauri-hiv-service", {
+      method: "GET",
+      url: `art-community/enrollments`,
       headers: { "x-access-token": token },
     });
   }

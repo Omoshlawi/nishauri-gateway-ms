@@ -14,6 +14,22 @@ export const getGroups = async (
   }
 };
 
+export const getMyGroupEnrollments = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    console.log((req as any).user);
+    const results = await artGroupRepo.findUseGroupEnrollments(
+      req.header("x-access-token")
+    );
+    return res.json(results);
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const createGroups = async (
   req: Request,
   res: Response,
