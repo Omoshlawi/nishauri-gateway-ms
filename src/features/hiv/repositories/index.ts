@@ -1,4 +1,6 @@
 import { AppointmentRepository } from "./appointments";
+import { ARTEventsRepsitory } from "./artEvents";
+import { ARTGrupRepository } from "./artGroups";
 import { CourierRepository } from "./courier";
 import { ARTDrugOrderRepository } from "./orders";
 import { TreatentSupportRepository } from "./treatmentSupport";
@@ -6,3 +8,5 @@ export const treatmentSurportRepo = new TreatentSupportRepository();
 export const appointmentRepo = new AppointmentRepository();
 export const ordersRepo = new ARTDrugOrderRepository();
 export const courierRepo = new CourierRepository();
+export const artGroupRepo = new ARTGrupRepository();
+export const artEventsRepo = new ARTEventsRepsitory();
