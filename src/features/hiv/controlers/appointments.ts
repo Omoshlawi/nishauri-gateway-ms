@@ -7,8 +7,8 @@ export const getAppointments = async (
   next: NextFunction
 ) => {
   try {
-    const results = await appointmentRepo.findAll();
-    return res.json(results );
+    const results = await appointmentRepo.findAll(req.header("x-access-token"));
+    return res.json(results);
   } catch (error) {
     next(error);
   }
@@ -20,7 +20,10 @@ export const getAppointment = async (
   next: NextFunction
 ) => {
   try {
-    const results = await appointmentRepo.findOneById(req.params.id);
+    const results = await appointmentRepo.findOneById(
+      req.params.id,
+      req.header("x-access-token")
+    );
     return res.json(results);
   } catch (error) {
     next(error);

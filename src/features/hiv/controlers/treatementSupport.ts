@@ -7,7 +7,9 @@ export const getTreatmentSuports = async (
   next: NextFunction
 ) => {
   try {
-    return res.json(await treatmentSurportRepo.findAll());
+    return res.json(
+      await treatmentSurportRepo.findAll(req.header("x-access-token"))
+    );
   } catch (error) {
     next(error);
   }

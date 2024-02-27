@@ -8,19 +8,22 @@ export class AppointmentRepository implements Repository<Appointment> {
   create(entity: unknown): Promise<Appointment> {
     throw new Error("Method not implemented.");
   }
-  async findOneById(id: string): Promise<Appointment | undefined> {
+  async findOneById(id: string, token?:string): Promise<Appointment | undefined> {
     return await ServiceClient.callService("nishauri-hiv-service", {
       url: `appointments/${id}`,
       method: "GET",
+      headers: { "x-access-token": token },
     });
   }
-  findAll(): Promise<Appointment[]> {
+  findAll(token?:string): Promise<Appointment[]> {
     return ServiceClient.callService("nishauri-hiv-service", {
       url: `appointments`,
       method: "GET",
+      headers: { "x-access-token": token },
+
     });
   }
-  findByCriteria(criteria: Record<string, any>): Promise<Appointment[]> {
+  findByCriteria(criteria: Record<string, any>,): Promise<Appointment[]> {
     throw new Error("Method not implemented.");
   }
   updateById(

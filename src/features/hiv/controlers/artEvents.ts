@@ -7,7 +7,7 @@ export const getEvents = async (
   next: NextFunction
 ) => {
   try {
-    const results = await artEventsRepo.findAll();
+    const results = await artEventsRepo.findAll(req.header("x-access-token"));
     return res.json(results);
   } catch (error) {
     next(error);
@@ -20,7 +20,10 @@ export const createEvents = async (
   next: NextFunction
 ) => {
   try {
-    const results = await artEventsRepo.create(req.body);
+    const results = await artEventsRepo.create(
+      req.body,
+      req.header("x-access-token")
+    );
     return res.json(results);
   } catch (error) {
     next(error);

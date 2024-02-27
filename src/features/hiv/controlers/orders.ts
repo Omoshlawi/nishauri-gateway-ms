@@ -7,7 +7,7 @@ export const getOrders = async (
   next: NextFunction
 ) => {
   try {
-    const results = await ordersRepo.findAll();
+    const results = await ordersRepo.findAll(req.header("x-access-token"));
     return res.json(results);
   } catch (error) {
     next(error);
@@ -20,7 +20,10 @@ export const createOrder = async (
   next: NextFunction
 ) => {
   try {
-    const results = await ordersRepo.create(req.body);
+    const results = await ordersRepo.create(
+      req.body,
+      req.header("x-access-token")
+    );
     return res.json(results);
   } catch (error) {
     next(error);
@@ -33,7 +36,10 @@ export const getOrder = async (
   next: NextFunction
 ) => {
   try {
-    const results = await ordersRepo.findOneById(req.params.id);
+    const results = await ordersRepo.findOneById(
+      req.params.id,
+      req.header("x-access-token")
+    );
     return res.json(results);
   } catch (error) {
     next(error);

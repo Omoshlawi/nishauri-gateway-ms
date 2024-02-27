@@ -5,13 +5,12 @@ import morgan from "morgan";
 import { MEDIA_ROOT, configuration } from "../utils";
 import { default as authRoutes } from "../features/auth/route";
 import proxy from "express-http-proxy";
-import { handleErrors } from "../middlewares";
+import { authenticate, handleErrors } from "../middlewares";
 import filesRoute from "../features/files/routes";
 import { default as facilityRoutes } from "../features/facilities/routes";
 import { default as patientsRouter } from "../features/patients/routes";
 import { default as hivRouter } from "../features/hiv/routes";
 import { default as mapsRouter } from "../features/maps/routes";
-
 
 export const dbConnection = async () => {
   try {
@@ -44,7 +43,7 @@ export const configureExpressApp = async (app: Application) => {
   app.use("/files", filesRoute);
   app.use("/facilities", facilityRoutes);
   app.use("/patients", patientsRouter);
-  app.use("/hiv-program", hivRouter);
+  app.use("/hiv-program", authenticate as any, hivRouter);
   app.use("/maps", mapsRouter);
 
   app.get("/", (req, res) => {

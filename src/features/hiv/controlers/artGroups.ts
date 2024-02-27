@@ -7,7 +7,7 @@ export const getGroups = async (
   next: NextFunction
 ) => {
   try {
-    const results = await artGroupRepo.findAll();
+    const results = await artGroupRepo.findAll(req.header("x-access-token"));
     return res.json(results);
   } catch (error) {
     next(error);
@@ -20,7 +20,10 @@ export const createGroups = async (
   next: NextFunction
 ) => {
   try {
-    const group = await artGroupRepo.create(req.body);
+    const group = await artGroupRepo.create(
+      req.body,
+      req.header("x-access-token")
+    );
     return res.json(group);
   } catch (error) {
     next(error);

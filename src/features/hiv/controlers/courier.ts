@@ -7,7 +7,7 @@ export const getCourierServices = async (
   next: NextFunction
 ) => {
   try {
-    const results = await courierRepo.findAll();
+    const results = await courierRepo.findAll(req.header("x-access-token"));
     return res.json(results);
   } catch (error) {
     next(error);

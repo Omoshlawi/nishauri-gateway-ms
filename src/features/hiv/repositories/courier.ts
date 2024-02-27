@@ -9,10 +9,11 @@ export class CourierRepository implements Repository<Courier> {
   findOneById(id: string): Promise<Courier | undefined> {
     throw new Error("Method not implemented.");
   }
-  findAll(): Promise<Courier[]> {
+  findAll(token?:string): Promise<Courier[]> {
     return ServiceClient.callService("nishauri-hiv-service", {
       url: `orders/courier-services`,
       method: "GET",
+      headers: { "x-access-token": token },
     });
   }
   findByCriteria(criteria: Record<string, any>): Promise<Courier[]> {

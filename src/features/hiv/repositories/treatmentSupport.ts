@@ -11,10 +11,11 @@ export class TreatentSupportRepository implements Repository<TreatmentSupport> {
   findOneById(id: string): Promise<TreatmentSupport | undefined> {
     throw new Error("Method not implemented.");
   }
-  async findAll(): Promise<TreatmentSupport[]> {
+  async findAll(token?: string): Promise<TreatmentSupport[]> {
     return await ServiceClient.callService("nishauri-hiv-service", {
       method: "GET",
       url: `art-treatment-support`,
+      headers: { "x-access-token": token },
     });
   }
   findByCriteria(criteria: Record<string, any>): Promise<TreatmentSupport[]> {
