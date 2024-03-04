@@ -41,3 +41,8 @@ export abstract class BaseEntity implements Entity {
     this.updatedAt = new Date();
   }
 }
+
+export interface Token {
+  accessToken: string;
+  refreshToken: string;
+}

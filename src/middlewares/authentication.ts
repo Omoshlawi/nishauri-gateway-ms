@@ -1,35 +1,23 @@
-import config from "config";
-import { NextFunction, Response } from "express";
-import jwt, { TokenExpiredError } from "jsonwebtoken";
+import { NextFunction, Request, Response } from "express";
 import { UserRequest } from "../shared/types";
-import UserRepository from "../features/auth/data/respositories/UserRepository";
+import { authRepo } from "../features/auth/repositories";
 
 const authenticate = async (
-  req: UserRequest,
+  req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  const token = req.header("x-access-token");
+  // const cookieToken = JSON.parse(req.cookies["session-token"] ?? null);
+  const cookieToken = req.cookies?.["session-token"];
+  const token = req.header("x-access-token") ?? cookieToken;
   if (!token)
-    return res.status(401).json({ detail: "Unauthorized - Missing token" });
+    return res.status(401).json({ detail: "Unauthorized - Token missing" });
   try {
-    const decoded: any = jwt.verify(token, config.get("jwt"));
-    const userId = decoded._id;
-    const user = await UserRepository.getUserProfileByToken(token);
-    if (userId != user._id)
-      return res.status(401).json({ detail: "Unauthorized - Invalid token" });
-    req.user = user;
+    const user = await authRepo.getUserByToken(token);
+    (req as UserRequest).user = user;
     return next();
   } catch (err: any) {
-    // TokenExpiredError
-    console.error(`[x]Error aithenticating user: `, err);
-    if (err.status && err.status !== 401) {
-      return res.status(err.status).json(err.errors);
-    }
-    if (err instanceof TokenExpiredError) {
-      // Send to logger
-    }
-    res.status(401).json({ detail: "Unauthorized - Invalid token" });
+    next(err);
   }
 };
 

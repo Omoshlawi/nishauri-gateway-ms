@@ -1,4 +1,5 @@
 import config from "config";
+import { CookieOptions } from "express";
 import path from "path";
 export const BASE_DIR = process.cwd();
 export const MEDIA_ROOT = path.join(BASE_DIR, "media");
@@ -14,9 +15,25 @@ export const configuration = {
     url: config.get("registry.url") as string,
     version: config.get("registry.version") as string,
   },
+  oauth: {
+    google_id: config.get("google_client_id") as string,
+    google_secrete: config.get("google_client_secrete") as string,
+    github_id: config.get("github_client_id") as string,
+    github_secrete: config.get("github_client_secrete") as string,
+    auth_secrete: config.get("auth_secrete") as string,
+    access_token_age: config.get("token.access_expiry") as string,
+    refresh_token_age: config.get("token.refresh_expiry") as string,
+  },
+  authCookieConfig: {
+    name: "session-token",
+    config: {
+      MAX_AGE: 30 * 24 * 60 * 60,
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      path: "/",
+    } as CookieOptions,
+  },
 };
-export {
-  objectTransfomer,
-  expressMulterFileToFile,
-  objectToFormData,
-} from "./helpers";
+export * from "./helpers";
+export * from "./oauth";
