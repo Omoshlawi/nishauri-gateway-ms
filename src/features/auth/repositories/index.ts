@@ -72,6 +72,41 @@ export class AuthRepository implements Repository<User> {
       },
     });
   }
+  async getOrCreateAccountVerification(
+    token: string,
+    params: Record<string, any>
+  ): Promise<any> {
+    return await ServiceClient.callService("nishauri-users-ms", {
+      url: "api/auth/verify",
+      method: "GET",
+      headers: {
+        "x-access-token": token,
+      },
+      params: params,
+    });
+  }
+
+  async verifyUserAccount(token: string, data: any) {
+    return await ServiceClient.callService("nishauri-users-ms", {
+      url: "api/auth/verify",
+      method: "POST",
+      headers: {
+        "x-access-token": token,
+      },
+      data,
+    });
+  }
+
+  async changeUserPassword(token: string, data: any) {
+    return await ServiceClient.callService("nishauri-users-ms", {
+      url: "api/auth/change-password",
+      method: "POST",
+      headers: {
+        "x-access-token": token,
+      },
+      data,
+    });
+  }
 }
 
 export const authRepo = new AuthRepository();

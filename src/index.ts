@@ -3,7 +3,7 @@ import express from "express";
 import { createServer } from "http";
 import { configureExpressApp, dbConnection } from "./server";
 import { configuration } from "./utils";
-
+import "./shared/tracer";
 const startServer = async () => {
   const app = express();
   const httpServer = createServer(app);

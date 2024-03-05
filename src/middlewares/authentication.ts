@@ -10,6 +10,7 @@ const authenticate = async (
   // const cookieToken = JSON.parse(req.cookies["session-token"] ?? null);
   const cookieToken = req.cookies?.["session-token"];
   const token = req.header("x-access-token") ?? cookieToken;
+
   if (!token)
     return res.status(401).json({ detail: "Unauthorized - Token missing" });
   try {

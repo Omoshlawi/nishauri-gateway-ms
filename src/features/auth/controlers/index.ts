@@ -75,3 +75,63 @@ export const refreshToken = async (
     next(err);
   }
 };
+
+export const changePassword = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    await authRepo.changeUserPassword(
+      req.header("x-access-token") as string,
+      req.body
+    );
+    return res.json({ detail: "Password changed successfully!" });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const resetPassword = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const verifyAccount = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    await authRepo.verifyUserAccount(
+      req.header("x-access-token") as string,
+      req.body
+    );
+    return res.json({ detail: "Verification successfull" });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const requestVerificationCode = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    return res.json(
+      await authRepo.getOrCreateAccountVerification(
+        req.header("x-access-token") as string,
+        req.query
+      )
+    );
+  } catch (error) {
+    next(error);
+  }
+};
