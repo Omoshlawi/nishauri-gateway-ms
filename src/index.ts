@@ -3,8 +3,13 @@ import express from "express";
 import { createServer } from "http";
 import { configureExpressApp, dbConnection } from "./server";
 import { configuration } from "./utils";
-import "./shared/tracer";
+import { init, start, initConsoled } from "./shared/tracer";
+import opentelemetry from "@opentelemetry/api";
+
+// init();
+// start();
 const startServer = async () => {
+  initConsoled();
   const app = express();
   const httpServer = createServer(app);
   //-------------- connect to database---------------------

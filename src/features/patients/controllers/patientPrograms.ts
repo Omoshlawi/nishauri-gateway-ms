@@ -11,7 +11,7 @@ export const register = async (
 ) => {
   try {
     const response = await patientProgramRepository.registerForProgram(
-      (req as UserRequest).user._id,
+      (req as UserRequest).user.id,
       req.body,
       req.header("x-access-token") as string
     );
@@ -27,7 +27,7 @@ export const requestVerification = async (
 ) => {
   try {
     const response = await patientProgramRepository.requestVerification(
-      (req as UserRequest).user._id,
+      (req as UserRequest).user.id,
       req.query,
       req.header("x-access-token") as string
     );
@@ -44,7 +44,7 @@ export const getRegisteredPrograms = async (
   try {
     return res.json(
       await patientProgramRepository.getPatientPrograms(
-        (req as UserRequest).user._id
+        (req as UserRequest).user.id
       )
     );
   } catch (error) {
@@ -58,7 +58,7 @@ export const verifyProgramRegistration = async (
 ) => {
   try {
     const response = await patientProgramRepository.verifyProgramRegistration(
-      (req as UserRequest).user._id,
+      (req as UserRequest).user.id,
       req.body,
       req.header("x-access-token") as string
     );
