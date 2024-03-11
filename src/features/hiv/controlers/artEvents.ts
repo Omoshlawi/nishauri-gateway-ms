@@ -51,3 +51,16 @@ export const updateEvent = async (
     next(error);
   }
 };
+
+export const getMyEvents = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const results = await artEventsRepo.findMine(req.header("x-access-token"));
+    return res.json(results);
+  } catch (error) {
+    next(error);
+  }
+};

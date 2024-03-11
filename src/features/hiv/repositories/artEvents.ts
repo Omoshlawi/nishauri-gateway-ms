@@ -36,6 +36,13 @@ export class ARTEventsRepsitory implements Repository<ARTEvent> {
       headers: { "x-access-token": token },
     });
   }
+  findMine(token?: string): Promise<ARTEvent[]> {
+    return ServiceClient.callService("nishauri-hiv-service", {
+      method: "GET",
+      url: `art-community/events/me`,
+      headers: { "x-access-token": token },
+    });
+  }
   updateById(
     id: string,
     updates: Partial<ARTEvent>,
